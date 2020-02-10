@@ -1,9 +1,8 @@
 package com.mec.engine;
 
-import java.awt.event.KeyEvent;
-
 public class GameContainer implements Runnable
 {
+	private MecEngineApp app;
 	private Thread thread;
 	private Window window;
 	private Renderer renderer;
@@ -21,9 +20,9 @@ public class GameContainer implements Runnable
 	/**Basically the framerate cap. */
 	private final double UPDATE_CAP = 1.0/60.0;
 	
-	public GameContainer()
+	public GameContainer(MecEngineApp app)
 	{
-		
+		this.app = app;
 	}
 	
 	public void start()
@@ -71,10 +70,7 @@ public class GameContainer implements Runnable
 				unprocessedTime -= UPDATE_CAP;
 				render = true;
 				
-				//TODO: Update Game
-				System.out.println(input.getScroll());
-				
-
+				app.update(this, (float)UPDATE_CAP);
 				input.update();
 				
 				if(frameTime >= 1.0)
@@ -89,7 +85,7 @@ public class GameContainer implements Runnable
 			if(render)
 			{
 				renderer.clear();
-				//TODO: Render Game
+				app.render(this, renderer);
 				window.update();
 				renderedFrames++;
 			}
@@ -113,13 +109,10 @@ public class GameContainer implements Runnable
 	{
 		
 	}
-	
-	public static void main(String args[]) {
-		GameContainer gc = new GameContainer();
-		gc.start();
-	}
 
 	public Window getWindow() {return this.window;}
+
+	public Input getInput() {return this.input;}
 
 	public int getWindowWidth() {return this.windowWidth;}
 	public void setWindowWidth(int windowWidth) {this.windowWidth = windowWidth;}
