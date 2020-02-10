@@ -13,6 +13,7 @@ import java.awt.image.BufferStrategy;
 public class Window
 {
     private JFrame frame;
+
     private BufferedImage image;
     private Canvas canvas;
 
@@ -50,6 +51,8 @@ public class Window
     }
 
     public BufferedImage getImage() { return this.image;}
+
+    public JFrame getFrame() {return this.frame;}
 
     public Canvas getCanvas() {return this.canvas;}
 }
