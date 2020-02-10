@@ -3,8 +3,18 @@ package com.mec.engine;
 public class GameContainer implements Runnable
 {
 	private Thread thread;
-	
+	private Window window;
+
+	private int windowWidth = 960;
+	private int windowHeight = 540;
+
+	/** Window Scale (1f = 540p, 2f = 1080p, 2.667f = 1440p, 4f = 4K) */
+	private float windowScale = 1;
+	private String windowTitle = "MecEngine Default Window Title";
+
 	private boolean running = false;
+
+	/**Basically the framerate cap. */
 	private final double UPDATE_CAP = 1.0/60.0;
 	
 	public GameContainer()
@@ -14,6 +24,7 @@ public class GameContainer implements Runnable
 	
 	public void start()
 	{
+		window = new Window(this);
 		thread = new Thread(this);
 		thread.run();
 	}
@@ -67,6 +78,7 @@ public class GameContainer implements Runnable
 			if(render)
 			{
 				//TODO: Render Game
+				window.update();
 				renderedFrames++;
 			}
 			else 
@@ -94,4 +106,17 @@ public class GameContainer implements Runnable
 		GameContainer gc = new GameContainer();
 		gc.start();
 	}
+
+	public int getWindowWidth() {return this.windowWidth;}
+	public void setWindowWidth(int windowWidth) {this.windowWidth = windowWidth;}
+
+	public int getWindowHeight() {return this.windowHeight;}
+	public void setWindowHeight(int windowHeight) {this.windowHeight = windowHeight;}
+
+	public float getWindowScale() {return this.windowScale;}
+	public void setWindowScale(float windowScale) {this.windowScale = windowScale;}
+
+	public String getWindowTitle() {return this.windowTitle;}
+	public void setWindowTitle(String windowTitle) {this.windowTitle = windowTitle;}
+
 }
