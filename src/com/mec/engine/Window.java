@@ -10,11 +10,12 @@ import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferStrategy;
 
-class Window
+public class Window
 {
     private JFrame frame;
     private BufferedImage image;
     private Canvas canvas;
+
     private BufferStrategy bs;
     private Graphics gfx;
 
@@ -47,4 +48,8 @@ class Window
         gfx.drawImage(image, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
         bs.show();
     }
+
+    public BufferedImage getImage() { return this.image;}
+
+    public Canvas getCanvas() {return this.canvas;}
 }

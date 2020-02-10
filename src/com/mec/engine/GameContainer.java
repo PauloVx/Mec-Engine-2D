@@ -4,12 +4,13 @@ public class GameContainer implements Runnable
 {
 	private Thread thread;
 	private Window window;
+	private Renderer renderer;
 
 	private int windowWidth = 960;
 	private int windowHeight = 540;
 
 	/** Window Scale (1f = 540p, 2f = 1080p, 2.667f = 1440p, 4f = 4K) */
-	private float windowScale = 1;
+	private float windowScale = 1f;
 	private String windowTitle = "MecEngine Default Window Title";
 
 	private boolean running = false;
@@ -25,6 +26,7 @@ public class GameContainer implements Runnable
 	public void start()
 	{
 		window = new Window(this);
+		renderer = new Renderer(this);
 		thread = new Thread(this);
 		thread.run();
 	}
@@ -77,6 +79,7 @@ public class GameContainer implements Runnable
 			
 			if(render)
 			{
+				renderer.clear();
 				//TODO: Render Game
 				window.update();
 				renderedFrames++;
@@ -106,6 +109,8 @@ public class GameContainer implements Runnable
 		GameContainer gc = new GameContainer();
 		gc.start();
 	}
+
+	public Window getWindow() {return this.window;}
 
 	public int getWindowWidth() {return this.windowWidth;}
 	public void setWindowWidth(int windowWidth) {this.windowWidth = windowWidth;}
