@@ -24,8 +24,8 @@ public class Application extends MecEngineApp
         // TODO: Write game code here.
 
         //Demo
-        r.drawImage(image, gc.getInput().getMouseX(), gc.getInput().getMouseY());
         r.drawImage(image, imgPosX, imgPosY);
+        r.drawImage(image, gc.getInput().getMouseX() - 128, gc.getInput().getMouseY() - 128);
     }
 
     @Override
