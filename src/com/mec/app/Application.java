@@ -5,17 +5,20 @@ import java.awt.event.KeyEvent;
 import com.mec.engine.GameContainer;
 import com.mec.engine.MecEngineApp;
 import com.mec.engine.Renderer;
+import com.mec.engine.gfx.Font;
 import com.mec.engine.gfx.Image;
+import com.mec.engine.gfx.ImageTile;
 
 /** Represents a game using the engine. */
 public class Application extends MecEngineApp 
 {
-    private Image image;
+    private ImageTile explosionDemo;
     private int imgPosX, imgPosY;
 
     public Application()
     {
-        image = new Image("/res/Placeholder.png");
+        //image = new Image("/res/fire.gif");
+        explosionDemo = new ImageTile("/res/fire_anim.mectexture", 32, 40);
     }
 
     @Override
@@ -24,8 +27,10 @@ public class Application extends MecEngineApp
         // TODO: Write game code here.
 
         //Demo
-        r.drawImage(image, imgPosX, imgPosY);
-        r.drawImage(image, gc.getInput().getMouseX() - 128, gc.getInput().getMouseY() - 128);
+        //r.drawImage(image, imgPosX + 256, imgPosY + 256);
+
+        r.drawImageTile(explosionDemo, gc.getInput().getMouseX() - 8, gc.getInput().getMouseY() - 16, (int)tileX, 5);
+        r.drawImageTile(explosionDemo, imgPosX, imgPosY, (int)tileX, 5);
     }
 
     @Override
@@ -38,7 +43,15 @@ public class Application extends MecEngineApp
         if(gc.getInput().isKeyPressed(KeyEvent.VK_D)) imgPosX += 2;
         if(gc.getInput().isKeyPressed(KeyEvent.VK_W)) imgPosY -= 2;
         if(gc.getInput().isKeyPressed(KeyEvent.VK_S)) imgPosY += 2;
+
+        tileX += deltaTime * 5;
+
+        if (tileX > 2560) tileX = 0;
+       
     }
+
+    float tileX = 0;
+    float tileY = 0;
 
     public static void main(String args[])
     {
