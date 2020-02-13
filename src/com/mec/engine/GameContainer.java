@@ -56,7 +56,7 @@ public class GameContainer implements Runnable
 		
 		while(running)
 		{
-			render = false;
+			render = false; //Change to true to unlock Framerate.
 			
 			firstTime = System.nanoTime() / 1000000000.0;
 			passedTime = firstTime - lastTime;
