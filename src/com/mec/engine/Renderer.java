@@ -1,23 +1,34 @@
 package com.mec.engine;
 
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.mec.engine.gfx.Image;
+import com.mec.engine.gfx.ImageRequest;
 import com.mec.engine.gfx.Font;
 import com.mec.engine.gfx.ImageTile;
 
 public class Renderer
 {
-    private int pW, pH; //Pixel Width/Height
-    private int[] p; //Pixels
-
     private Font font = Font.STD_FONT;
+    private ArrayList<ImageRequest> imageRequests = new ArrayList<ImageRequest>();
+
+    private int pW, pH; //Pixel Width/Height
+    private int zDepth = 0;
+
+    private boolean processing = false;
+
+    private int[] p; //Pixels
+    private int[] zBuffer;
 
     public Renderer(GameContainer gc)
     {
         pW = gc.getWindowWidth();
         pH = gc.getWindowHeight();
         p = ((DataBufferInt)gc.getWindow().getImage().getRaster().getDataBuffer()).getData();
+        zBuffer = new int[p.length];
     }
 
     /**Will clear the screen */
@@ -26,7 +37,35 @@ public class Renderer
         for(int i = 0; i < p.length; i++)
         {
             p[i] = 0xff222222;
+            zBuffer[i] = 0;
         }
+    }
+
+    public void process()
+    {
+        processing = true;
+
+        Collections.sort(imageRequests, new Comparator<ImageRequest>(){
+
+            @Override
+            public int compare(ImageRequest i0, ImageRequest i1) {
+                if (i0.zDepth < i1.zDepth) return -1;
+                if (i0.zDepth > i1.zDepth) return 1;
+
+                return 0;
+            }
+
+        });
+
+        for(int i = 0; i < imageRequests.size(); i++) 
+        {
+            ImageRequest imageRequest = imageRequests.get(i);
+            setZDepth(imageRequest.zDepth);
+            drawImage(imageRequest.image, imageRequest.offsetX, imageRequest.offsetY);
+        }
+
+        imageRequests.clear();
+        processing = false;
     }
 
     /**
@@ -37,9 +76,27 @@ public class Renderer
      */
     public void setPixel(int x, int y, int color)
     {
-        if( (x < 0 || x >= pW || y < 0 || y >= pH) || ((color >> 24) & 0xff ) == 0) return;
+        int alpha = ((color >> 24) & 0xff);
+
+        if( (x < 0 || x >= pW || y < 0 || y >= pH) || alpha == 0) return;
+
+        int index = x + y * pW;
         
-        p[x + y * pW] = color;
+        if(zBuffer[index]  > zDepth) return;
+
+        zBuffer[index] = zDepth;
+
+        if(alpha == 0xff) p[index] = color;
+        else
+        {
+            int pixelColor = p[index];
+
+            int newRed = ((pixelColor >> 16) & 0xff) - (int)(((pixelColor >> 16) & 0xff - ((color >> 16) & 0xff)) * (alpha / 255f));
+            int newGreen = ((pixelColor >> 8) & 0xff) - (int)(((pixelColor >> 8) & 0xff - ((color >> 8) & 0xff)) * (alpha / 255f));
+            int newBlue = (pixelColor & 0xff) - (int)(((pixelColor & 0xff) - (color & 0xff)) * (alpha / 255f));
+
+            p[index] = (255 << 24 | newRed << 16 | newGreen << 8 | newBlue);
+        }
     }
 
     /**
@@ -79,6 +136,12 @@ public class Renderer
      */
     public void drawImage(Image image, int offsetX, int offsetY)
     {
+        if(image.isAlpha() && !processing)
+        {
+            imageRequests.add(new ImageRequest(image, zDepth, offsetX, offsetY));
+            return;
+        }
+
         if(offsetX < -image.getWidth()) return;
         if(offsetY < -image.getHeight()) return;
 
@@ -115,6 +178,12 @@ public class Renderer
      */
     public void drawImageTile(ImageTile tile, int offsetX, int offsetY, int tileX, int tileY)
     {
+        if(tile.isAlpha() && !processing)
+        {
+            imageRequests.add(new ImageRequest(tile.getTileImage(tileX, tileY), zDepth, offsetX, offsetY));
+            return;
+        }
+
         if(offsetX < -tile.getTileWidth()) return;
         if(offsetY < -tile.getTileHeight()) return;
 
@@ -192,12 +261,15 @@ public class Renderer
         if(newWidth + offsetX >= pW) newWidth -= newWidth + offsetX - pW;
         if(newHeight + offsetY >= pH) newHeight -= newHeight + offsetY - pH;
 
-        for(int y = newY; y <= newHeight; y++)
+        for(int y = newY; y < newHeight; y++)
         {
-            for(int x = newX; x <= newWidth; x++)
+            for(int x = newX; x < newWidth; x++)
             {
                 setPixel(x + offsetX, y + offsetY, color);
             }
         }
     }
+
+    public int getZDepth() {return this.zDepth;}
+    public void setZDepth(int zDepth) {this.zDepth = zDepth;}
 }

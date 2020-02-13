@@ -11,13 +11,13 @@ public class GameContainer implements Runnable
 	private int windowWidth = 960;
 	private int windowHeight = 540;
 
-	/** Window Scale (1f = 540p, 2f = 1080p, 2.667f = 1440p, 4f = 4K) */
 	private float windowScale = 1f;
 	private String windowTitle = "MecEngine Default Window Title";
 
 	private boolean running = false;
 
-	/**Basically the framerate cap. */
+	/**False to unlock the fps, true will lock it to the default value (60). */
+	private boolean framerateLock = true;
 	private final double UPDATE_CAP = 1.0/60.0;
 	
 	public GameContainer(MecEngineApp app)
@@ -56,7 +56,7 @@ public class GameContainer implements Runnable
 		
 		while(running)
 		{
-			render = false; //Change to true to unlock Framerate.
+			render = !framerateLock;
 			
 			firstTime = System.nanoTime() / 1000000000.0;
 			passedTime = firstTime - lastTime;
@@ -86,6 +86,7 @@ public class GameContainer implements Runnable
 			{
 				renderer.clear();
 				app.render(this, renderer);
+				renderer.process();
 				renderer.drawText("FPS: " + currentFramerate, 0, 0, 0xffffffff);
 				window.update();
 				renderedFrames++;
@@ -111,6 +112,11 @@ public class GameContainer implements Runnable
 		
 	}
 
+	/**False to unlock the fps, true will lock it to the default value (60). 
+	 * @param value boolean value.
+	*/
+	public void setFramerateLock(boolean value){this.framerateLock = value;}
+
 	public Window getWindow() {return this.window;}
 
 	public Input getInput() {return this.input;}
@@ -122,6 +128,9 @@ public class GameContainer implements Runnable
 	public void setWindowHeight(int windowHeight) {this.windowHeight = windowHeight;}
 
 	public float getWindowScale() {return this.windowScale;}
+	/** Window Scale, Default = 1f. 
+	 * @param windowScale float value.
+	*/
 	public void setWindowScale(float windowScale) {this.windowScale = windowScale;}
 
 	public String getWindowTitle() {return this.windowTitle;}

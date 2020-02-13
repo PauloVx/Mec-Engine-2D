@@ -13,18 +13,20 @@ import com.mec.engine.audio.SoundClip;;
 /** Represents a game using the engine. */
 public class Application extends MecEngineApp 
 {
+    private Image background;
     private Image ground;
 
     private ImageTile tile;
-    private ImageTile door;
+
     private int imgPosX, imgPosY;
 
     private SoundClip sound;
 
     public Application()
     {
+        background = new Image("/res/Textures/background.mct");
+
         tile = new ImageTile("/res/Textures/fire_anim.mct", 32, 32);
-        door = new ImageTile("/res/Textures/door_animated.mct", 32, 32);
 
         ground = new Image("/res/Textures/rock.mct");
 
@@ -37,48 +39,46 @@ public class Application extends MecEngineApp
         // TODO: Write game code here.
 
         //Demo
+        r.drawImage(background, 0, 0);
+
         r.drawImageTile(tile, gc.getInput().getMouseX() - 8, gc.getInput().getMouseY() - 16, (int)tileX, 5);
         r.drawImageTile(tile, imgPosX, imgPosY, (int)tileX, 3);
+        
+        int floorY = gc.getWindowHeight() - 32;
+        r.drawImage(ground, 0, floorY);
+        r.drawImage(ground, 32, floorY);
+        r.drawImage(ground, 64, floorY);
+        r.drawImage(ground, 96, floorY);
+        r.drawImage(ground, 128, floorY);
+        r.drawImage(ground, 160, floorY);
+        r.drawImage(ground, 192, floorY);
+        r.drawImage(ground, 224, floorY);
+        r.drawImage(ground, 256, floorY);
+        r.drawImage(ground, 288, floorY);
+        r.drawImage(ground, 320, floorY);
+        r.drawImage(ground, 352, floorY);
+        r.drawImage(ground, 384, floorY);
+        r.drawImage(ground, 416, floorY);
+        r.drawImage(ground, 448, floorY);
+        r.drawImage(ground, 448+32, floorY);
+        r.drawImage(ground, 448+32*2, floorY);
+        r.drawImage(ground, 448+32*3, floorY);
+        r.drawImage(ground, 448+32*4, floorY);
+        r.drawImage(ground, 448+32*5, floorY);
+        r.drawImage(ground, 448+32*6, floorY);
+        r.drawImage(ground, 448+32*7, floorY);
+        r.drawImage(ground, 448+32*8, floorY);
+        r.drawImage(ground, 448+32*9, floorY);
+        r.drawImage(ground, 448+32*10, floorY);
+        r.drawImage(ground, 448+32*11, floorY);
+        r.drawImage(ground, 448+32*12, floorY);
+        r.drawImage(ground, 448+32*13, floorY);
+        r.drawImage(ground, 448+32*14, floorY);
+        r.drawImage(ground, 448+32*15, floorY);
 
-        r.drawImageTile(door, 360, 360, (int)tileDoor, 0);
+        r.drawFilledRect(0x8800ff00, 0, 0, gc.getWindowWidth(), gc.getWindowHeight());
 
         r.drawText("TEXT RENDERING TEST", 0, 16, 0xffff0000);
-
-        r.drawFilledRect(0xff00ff00, 360, 360, 180, 90);
-
-        r.drawImage(ground, 0, 510);
-        r.drawImage(ground, 32, 510);
-        r.drawImage(ground, 64, 510);
-        r.drawImage(ground, 96, 510);
-        r.drawImage(ground, 128, 510);
-        r.drawImage(ground, 160, 510);
-        r.drawImage(ground, 192, 510);
-        r.drawImage(ground, 224, 510);
-        r.drawImage(ground, 256, 510);
-        r.drawImage(ground, 288, 510);
-        r.drawImage(ground, 320, 510);
-        r.drawImage(ground, 352, 510);
-        r.drawImage(ground, 384, 510);
-        r.drawImage(ground, 416, 510);
-        r.drawImage(ground, 448, 510);
-        r.drawImage(ground, 448+32, 510);
-        r.drawImage(ground, 448+32*2, 510);
-        r.drawImage(ground, 448+32*3, 510);
-        r.drawImage(ground, 448+32*4, 510);
-        r.drawImage(ground, 448+32*5, 510);
-        r.drawImage(ground, 448+32*6, 510);
-        r.drawImage(ground, 448+32*7, 510);
-        r.drawImage(ground, 448+32*8, 510);
-        r.drawImage(ground, 448+32*9, 510);
-        r.drawImage(ground, 448+32*10, 510);
-        r.drawImage(ground, 448+32*11, 510);
-        r.drawImage(ground, 448+32*12, 510);
-        r.drawImage(ground, 448+32*13, 510);
-        r.drawImage(ground, 448+32*14, 510);
-        r.drawImage(ground, 448+32*15, 510);
-
-        r.setPixel(200, 200, 0xffffff00);
-
     }
 
     @Override
@@ -102,13 +102,18 @@ public class Application extends MecEngineApp
         if (tileDoor > 384) tileX = 0;
        
     }
-    
+
     float tileX = 0;
     float tileDoor = 0;
 
     public static void main(String args[])
     {
         GameContainer gc = new GameContainer(new Application());
+
+        //TODO: Config code here.
+        gc.setFramerateLock(true);
+        gc.setWindowScale(1f);
+
         gc.start();
     }
 }
