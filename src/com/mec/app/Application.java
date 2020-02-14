@@ -7,7 +7,7 @@ import com.mec.engine.MecEngineApp;
 import com.mec.engine.Renderer;
 import com.mec.engine.gfx.Image;
 import com.mec.engine.gfx.ImageTile;
-
+import com.mec.engine.gfx.Light;
 import com.mec.engine.audio.SoundClip;;
 
 /** Represents a game using the engine. */
@@ -15,6 +15,9 @@ public class Application extends MecEngineApp
 {
     private Image background;
     private Image ground;
+    private Image lightBulb;
+
+    private Light light;
 
     private ImageTile tile;
 
@@ -27,10 +30,16 @@ public class Application extends MecEngineApp
         background = new Image("/res/Textures/background.mct");
 
         tile = new ImageTile("/res/Textures/fire_anim.mct", 32, 32);
+        tile.setAlpha(false);
+        tile.setLightBlock(Light.FULL);
 
         ground = new Image("/res/Textures/rock.mct");
+        ground.setAlpha(true);
+        ground.setLightBlock(Light.FULL);
 
         sound = new SoundClip("/res/Audio/figure_it_out.wav");
+
+        light = new Light(200, 0xffffffff);
     }
 
     @Override
@@ -39,9 +48,10 @@ public class Application extends MecEngineApp
         // TODO: Write game code here.
 
         //Demo
+
         r.drawImage(background, 0, 0);
 
-        r.drawImageTile(tile, gc.getInput().getMouseX() - 8, gc.getInput().getMouseY() - 16, (int)tileX, 5);
+        //r.drawImageTile(tile, gc.getInput().getMouseX() - 8, gc.getInput().getMouseY() - 16, (int)tileX, 5);
         r.drawImageTile(tile, imgPosX, imgPosY, (int)tileX, 3);
         
         int floorY = gc.getWindowHeight() - 32;
@@ -75,10 +85,11 @@ public class Application extends MecEngineApp
         r.drawImage(ground, 448+32*13, floorY);
         r.drawImage(ground, 448+32*14, floorY);
         r.drawImage(ground, 448+32*15, floorY);
-
+        
+        r.drawLight(light, gc.getInput().getMouseX(), gc.getInput().getMouseY());
+        r.drawText("Mec Engine v0.5 Demo Scene", 0, 32, 0xffff0000);
         //r.drawFilledRect(0x880000ff, 0, 0, gc.getWindowWidth(), gc.getWindowHeight());
 
-        r.drawText("Mec Engine v0.5 Demo Scene", 0, 32, 0xffff0000);
     }
 
     @Override
@@ -110,9 +121,12 @@ public class Application extends MecEngineApp
     {
         GameContainer gc = new GameContainer(new Application());
 
-        //TODO: Config code here.
-        gc.setFramerateLock(true);
+        gc.setWindowWidth(960);
+        gc.setWindowHeight(540);
         gc.setWindowScale(1f);
+
+        //TODO: Config code here.
+        gc.setFramerateLock(false);
 
         gc.start();
     }

@@ -8,6 +8,8 @@ import javax.imageio.ImageIO;
 public class Image 
 {
     private int width, height;
+    private int lightBlock = Light.NONE;
+
     private int[] pixels;
 
     private boolean alpha = false;
@@ -48,4 +50,7 @@ public class Image
 
     public boolean isAlpha() {return this.alpha;}
     public void setAlpha(boolean alpha) {this.alpha = alpha;}
+
+    public int getLightBlock() {return this.lightBlock;}
+    public void setLightBlock(int lightBlock) {this.lightBlock = lightBlock;}
 }

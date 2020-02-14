@@ -78,7 +78,7 @@ public class GameContainer implements Runnable
 					frameTime = 0;
 					currentFramerate = renderedFrames;
 					renderedFrames = 0;
-					System.out.println("Current FPS: " + currentFramerate);
+					//System.out.println("Current FPS: " + currentFramerate);
 				}
 			}
 			
