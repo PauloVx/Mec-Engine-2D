@@ -76,9 +76,9 @@ public class Application extends MecEngineApp
         r.drawImage(ground, 448+32*14, floorY);
         r.drawImage(ground, 448+32*15, floorY);
 
-        r.drawFilledRect(0x8800ff00, 0, 0, gc.getWindowWidth(), gc.getWindowHeight());
+        //r.drawFilledRect(0x880000ff, 0, 0, gc.getWindowWidth(), gc.getWindowHeight());
 
-        r.drawText("TEXT RENDERING TEST", 0, 16, 0xffff0000);
+        r.drawText("Mec Engine v0.5 Demo Scene", 0, 32, 0xffff0000);
     }
 
     @Override

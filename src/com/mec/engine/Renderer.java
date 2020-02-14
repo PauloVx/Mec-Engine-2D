@@ -12,7 +12,7 @@ import com.mec.engine.gfx.ImageTile;
 
 public class Renderer
 {
-    private Font font = Font.STD_FONT;
+    private Font font = Font.COMICSANS_FONT; //Set the font
     private ArrayList<ImageRequest> imageRequests = new ArrayList<ImageRequest>();
 
     private int pW, pH; //Pixel Width/Height
@@ -108,12 +108,11 @@ public class Renderer
      */
     public void drawText(String text, int offsetX, int offsetY, int color)
     {
-        text = text.toUpperCase();
         int offset = 0;
 
         for(int i = 0; i < text.length(); i++)
         {
-            int unicode = text.codePointAt(i) - 32;
+            int unicode = text.codePointAt(i);
 
             for(int y = 0; y < font.getFontImage().getHeight(); y++)
             {

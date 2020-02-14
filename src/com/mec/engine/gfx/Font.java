@@ -2,8 +2,11 @@ package com.mec.engine.gfx;
 
 public class Font
 {
-    /**Default font */
-    public static final Font STD_FONT = new Font("/res/Fonts/stdFont.mcf");
+    /*Fonts, to create one just use the font creator and add the generated file here. 
+    The fonte creator is located inside res/Fonts.
+    */
+    public static final Font STD_FONT = new Font("/res/Fonts/Std_Font.mcf");
+    public static final Font COMICSANS_FONT = new Font("/res/Fonts/Comic_Font.mcf");
 
     private Image fontImage;
     private int[] offsets;
@@ -12,8 +15,8 @@ public class Font
     public Font(String path)
     {
         fontImage = new Image(path);
-        offsets = new int[59];
-        widths = new int[59];
+        offsets = new int[256]; //59
+        widths = new int[256];
 
         int unicode = 0;
         for(int i = 0; i < fontImage.getWidth(); i++)
