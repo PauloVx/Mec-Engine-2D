@@ -2,7 +2,9 @@ package com.mec.app;
 
 import java.awt.event.KeyEvent;
 
+import com.mec.engine.Colors;
 import com.mec.engine.GameContainer;
+import com.mec.engine.Input;
 import com.mec.engine.MecEngineApp;
 import com.mec.engine.Renderer;
 import com.mec.engine.gfx.Image;
@@ -39,7 +41,7 @@ public class Application extends MecEngineApp
 
         sound = new SoundClip("/res/Audio/figure_it_out.wav");
 
-        light = new Light(200, 0xffffffff);
+        light = new Light(400, Colors.WHITE);
     }
 
     @Override
@@ -53,6 +55,9 @@ public class Application extends MecEngineApp
 
         //r.drawImageTile(tile, gc.getInput().getMouseX() - 8, gc.getInput().getMouseY() - 16, (int)tileX, 5);
         r.drawImageTile(tile, imgPosX, imgPosY, (int)tileX, 3);
+        r.drawImageTile(tile, imgPosX+100, imgPosY+100, (int)tileX, 3);
+        r.drawImageTile(tile, imgPosX, imgPosY+100, (int)tileX, 3);
+        r.drawImageTile(tile, imgPosX+100, imgPosY, (int)tileX, 3);
         
         int floorY = gc.getWindowHeight() - 32;
         r.drawImage(ground, 0, floorY);
@@ -96,15 +101,15 @@ public class Application extends MecEngineApp
     public void update(GameContainer gc, float deltaTime) 
     {
         // TODO: Write game code here.
-        if(gc.getInput().isKeyPressed(KeyEvent.VK_P)) sound.playAudio();
-        if(gc.getInput().isKeyPressed(KeyEvent.VK_O)) sound.setVolume(+6);
-        if(gc.getInput().isKeyPressed(KeyEvent.VK_L)) sound.setVolume(-6);
+        if(gc.getInput().isKeyPressed(Input.KEY_CTRL)) sound.playAudio();
+        if(gc.getInput().isKeyPressed(Input.KEY_O)) sound.setVolume(+6);
+        if(gc.getInput().isKeyPressed(Input.KEY_L)) sound.setVolume(-6);
 
         //Demo
-        if(gc.getInput().isKeyPressed(KeyEvent.VK_A)) imgPosX -= 2;
-        if(gc.getInput().isKeyPressed(KeyEvent.VK_D)) imgPosX += 2;
-        if(gc.getInput().isKeyPressed(KeyEvent.VK_W)) imgPosY -= 2;
-        if(gc.getInput().isKeyPressed(KeyEvent.VK_S)) imgPosY += 2;
+        if(gc.getInput().isKeyPressed(Input.KEY_A)) imgPosX -= 2;
+        if(gc.getInput().isKeyPressed(Input.KEY_D)) imgPosX += 2;
+        if(gc.getInput().isKeyPressed(Input.KEY_W)) imgPosY -= 2;
+        if(gc.getInput().isKeyPressed(Input.KEY_S)) imgPosY += 2;
 
         tileX += deltaTime * 5;
         tileDoor += deltaTime * 4;
