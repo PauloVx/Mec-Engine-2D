@@ -10,7 +10,8 @@ import com.mec.engine.Renderer;
 import com.mec.engine.gfx.Image;
 import com.mec.engine.gfx.ImageTile;
 import com.mec.engine.gfx.Light;
-import com.mec.engine.audio.SoundClip;;
+import com.mec.engine.audio.SoundClip;
+import com.mec.engine.gfx.Font;;
 
 /** Represents a game using the engine. */
 public class Application extends MecEngineApp 
@@ -50,6 +51,7 @@ public class Application extends MecEngineApp
         // TODO: Write game code here.
 
         //Demo
+        //r.setAmbientColor(Colors.WHITE);
 
         r.drawImage(background, 0, 0);
 
@@ -92,7 +94,7 @@ public class Application extends MecEngineApp
         r.drawImage(ground, 448+32*15, floorY);
         
         r.drawLight(light, gc.getInput().getMouseX(), gc.getInput().getMouseY());
-        r.drawText("Mec Engine v0.5 Demo Scene", 0, 32, 0xffff0000);
+        r.drawText("Mec Engine v0.5 Demo Scene", 0, 32, Colors.RED);
         //r.drawFilledRect(0x880000ff, 0, 0, gc.getWindowWidth(), gc.getWindowHeight());
 
     }

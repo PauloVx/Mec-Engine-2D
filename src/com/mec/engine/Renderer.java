@@ -10,11 +10,14 @@ import com.mec.engine.gfx.ImageRequest;
 import com.mec.engine.gfx.Font;
 import com.mec.engine.gfx.ImageTile;
 import com.mec.engine.gfx.Light;
+import com.mec.engine.gfx.LightRequest;
 
 public class Renderer
 {
     private Font font = Font.COMICSANS_FONT; //Set the font
+
     private ArrayList<ImageRequest> imageRequests = new ArrayList<ImageRequest>();
+    private ArrayList<LightRequest> lightRequests = new ArrayList<LightRequest>();
 
     private int pW, pH; //Pixel Width/Height
     private int ambientColor = 0xff232323;
@@ -74,6 +77,13 @@ public class Renderer
             drawImage(imageRequest.image, imageRequest.offsetX, imageRequest.offsetY);
         }
 
+        //Draw lighting
+        for(int i = 0; i < lightRequests.size(); i++)
+        {
+            LightRequest lr = lightRequests.get(i);
+            drawLightRequest(lr.light, lr.posX, lr.posY);
+        }
+
         for (int i = 0 ; i < p.length; i++)
         {
            float red = ((lightMap[i] >> 16) & 0xff) / 255f;
@@ -84,6 +94,7 @@ public class Renderer
         }
 
         imageRequests.clear();
+        lightRequests.clear();
         processing = false;
     }
 
@@ -326,6 +337,12 @@ public class Renderer
 
     public void drawLight(Light light, int offsetX, int offsetY)
     {
+        lightRequests.add(new LightRequest(light, offsetX, offsetY));
+    }
+
+    /**Internal use only */
+    private void drawLightRequest(Light light, int offsetX, int offsetY)
+    {
         for(int i = 0; i <= light.getDiameter(); i++)
         {
             drawLightLine(light, light.getRadius(), light.getRadius(), i, 0, offsetX, offsetY);
@@ -380,4 +397,17 @@ public class Renderer
 
     public int getZDepth() {return this.zDepth;}
     public void setZDepth(int zDepth) {this.zDepth = zDepth;}
+
+    /**Sets the font to one of the fonts defined in Fonts class. 
+     * Be careful not to import the standard java font class instead of the engine one.
+     * If the text gets corrupted after you set a new font, make sure you set the right amount of characters in
+     * Font.offsets and widths.
+     * Keep in mind that if you don't set a font in your game code the default one will be Font.COMICSANS_FONT.
+    */
+    public void setFont(Font font) {this.font = font;}
+
+    /**Color when there's no lights in the scene, set to white if you don't want to use lights. 
+     * Keep in mind that if you don't set an ambient color, the default one will be #232323 which is a dark gray.
+    */
+    public void setAmbientColor(int color) {this.ambientColor = color;}
 }
