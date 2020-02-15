@@ -13,11 +13,14 @@ public class Font
     private int[] offsets;
     private int[] widths;
 
+    private int offsetValue = 256;
+    private int widthValue = 256;
+
     public Font(String path)
     {
         fontImage = new Image(path);
-        offsets = new int[256]; //Amount of characters of the font.
-        widths = new int[256]; //Amount of characters of the font.
+        offsets = new int[offsetValue]; //Amount of characters of the font.59
+        widths = new int[widthValue]; //Amount of characters of the font.59
 
         int unicode = 0;
         for(int i = 0; i < fontImage.getWidth(); i++)
@@ -39,4 +42,7 @@ public class Font
 
     public int[] getWidths() { return this.widths;}
     public void setWidths(int[] widths) {this.widths = widths;}
+
+    public void setOffsetValue(int offsetValue) {this.offsetValue = offsetValue;}
+    public void setWidthValue(int widthValue) {this.widthValue = widthValue;}
 }

@@ -1,9 +1,11 @@
 package com.mec.app;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import com.mec.engine.Colors;
 import com.mec.engine.GameContainer;
+import com.mec.engine.GameObject;
 import com.mec.engine.Input;
 import com.mec.engine.MecEngineApp;
 import com.mec.engine.Renderer;
@@ -16,20 +18,43 @@ import com.mec.engine.gfx.Font;;
 /** Represents a game using the engine. */
 public class Application extends MecEngineApp 
 {
+    private ArrayList<GameObject> objects = new ArrayList<GameObject>();
+
     public Application()
     {
+        objects.add(new Player(2, 2));
     }
 
     @Override
-    public void render(GameContainer gc, Renderer r) 
+    public void init(GameContainer gc) 
     {
-        r.setAmbientColor(Colors.WHITE);
+        gc.getRenderer().setAmbientColor(Colors.WHITE);
+        gc.getRenderer().setFont(Font.COMICSANS_FONT);
+    }
+
+    @Override
+    public void render(GameContainer gc, Renderer renderer) 
+    {
+        for (GameObject gameObject : objects) 
+        {
+            gameObject.render(gc, renderer);
+        }
         // TODO: Write game code here.
     }
 
     @Override
     public void update(GameContainer gc, float deltaTime) 
     {
+        for(int i = 0; i < objects.size(); i++)
+        {
+            objects.get(i).update(gc, deltaTime);
+            if(objects.get(i).isDead()) 
+            {
+                objects.remove(i);
+                i--;
+            }
+        }
+
         // TODO: Write game code here.
     }
 
@@ -37,13 +62,13 @@ public class Application extends MecEngineApp
     {
         GameContainer gc = new GameContainer(new Application());
 
-        gc.setWindowWidth(960);
-        gc.setWindowHeight(540);
-        gc.setWindowScale(1f);
+        gc.setRenderResolution(1600, 900);
+        gc.setWindowScale(0.6f);
 
         //TODO: Config code here.
         gc.setFramerateLock(false);
 
         gc.start();
     }
+
 }

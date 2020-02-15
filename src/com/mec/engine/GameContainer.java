@@ -54,6 +54,8 @@ public class GameContainer implements Runnable
 		int renderedFrames = 0;
 		int currentFramerate = 0;
 		
+		app.init(this);
+
 		while(running)
 		{
 			render = !framerateLock;
@@ -122,18 +124,32 @@ public class GameContainer implements Runnable
 	public Input getInput() {return this.input;}
 
 	public int getWindowWidth() {return this.windowWidth;}
-	public void setWindowWidth(int windowWidth) {this.windowWidth = windowWidth;}
+	private void setWindowWidth(int windowWidth) {this.windowWidth = windowWidth;}
 
 	public int getWindowHeight() {return this.windowHeight;}
-	public void setWindowHeight(int windowHeight) {this.windowHeight = windowHeight;}
+	private void setWindowHeight(int windowHeight) {this.windowHeight = windowHeight;}
+
+	/**Use this mehod to change the rendering resolution of the window.
+	 * If you don't call this method, the default resolution will be 960x540.
+	 */
+	public void setRenderResolution(int pixelsX, int pixelsY)
+	{
+		setWindowWidth(pixelsX);
+		setWindowHeight(pixelsY);
+	}
 
 	public float getWindowScale() {return this.windowScale;}
-	/** Window Scale, Default = 1f. 
+	/** Window Scale, Default = 1f.
+	 * Keep in mind that this method will not change the rendering resolution of the window,
+	 * it will just make the window bigger.
+	 * If you want to change the rendering resolution use setRenderResolution().
 	 * @param windowScale float value.
 	*/
 	public void setWindowScale(float windowScale) {this.windowScale = windowScale;}
 
 	public String getWindowTitle() {return this.windowTitle;}
 	public void setWindowTitle(String windowTitle) {this.windowTitle = windowTitle;}
+
+	public Renderer getRenderer() {return this.renderer;}
 
 }

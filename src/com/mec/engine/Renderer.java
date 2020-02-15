@@ -20,7 +20,7 @@ public class Renderer
     private ArrayList<LightRequest> lightRequests = new ArrayList<LightRequest>();
 
     private int pW, pH; //Pixel Width/Height
-    private int ambientColor = 0xff232323;
+    private int ambientColor = Colors.WHITE;
     private int zDepth = 0;
 
     private boolean processing = false;
@@ -404,10 +404,16 @@ public class Renderer
      * Font.offsets and widths.
      * Keep in mind that if you don't set a font in your game code the default one will be Font.COMICSANS_FONT.
     */
-    public void setFont(Font font) {this.font = font;}
+    public void setFont(Font font) 
+    {
+        this.font = font;
+    }
 
-    /**Color when there's no lights in the scene, set to white if you don't want to use lights. 
-     * Keep in mind that if you don't set an ambient color, the default one will be #232323 which is a dark gray.
+    /**Color when there's no lights in the scene, by default it's set to white. 
+     * Keep in mind that if you don't set an ambient color, the default white color won't let you see the lights
+     * you use in the scene.
+     * The recommended ambient color to use with lights is Colors.DARK_GRAY, which will make the scene dark
+     * but not pitch black.
     */
     public void setAmbientColor(int color) {this.ambientColor = color;}
 }
