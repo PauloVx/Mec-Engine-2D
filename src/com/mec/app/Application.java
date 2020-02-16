@@ -28,7 +28,7 @@ public class Application extends MecEngineApp
     @Override
     public void init(GameContainer gc) 
     {
-        gc.getRenderer().setAmbientColor(Colors.WHITE);
+        gc.getRenderer().setAmbientColor(Colors.LIGHT_GRAY);
         gc.getRenderer().setFont(Font.COMICSANS_FONT);
     }
 
@@ -47,7 +47,7 @@ public class Application extends MecEngineApp
     {
         for(int i = 0; i < objects.size(); i++)
         {
-            objects.get(i).update(gc, deltaTime);
+            objects.get(i).update(gc, this, deltaTime);
             if(objects.get(i).isDead()) 
             {
                 objects.remove(i);
@@ -58,6 +58,12 @@ public class Application extends MecEngineApp
         // TODO: Write game code here.
     }
 
+    //Adds an object to the objects array.
+    public void addObject(GameObject obj)
+    {
+        objects.add(obj);
+    }
+
     public static void main(String args[])
     {
         GameContainer gc = new GameContainer(new Application());
@@ -66,7 +72,8 @@ public class Application extends MecEngineApp
         gc.setWindowScale(0.6f);
 
         //TODO: Config code here.
-        gc.setFramerateLock(false);
+        gc.setFramerateLock(true);
+        gc.setWindowTitle("MecEngine Demo Game");
 
         gc.start();
     }

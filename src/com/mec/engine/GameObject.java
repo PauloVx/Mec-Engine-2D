@@ -1,7 +1,11 @@
 package com.mec.engine;
 
+import com.mec.app.Application;
+
+/**Represents any object in the game. */
 public abstract class GameObject
 {
+    /**Id of the object */
     protected String tag;
     protected float posX;
     protected float posY;
@@ -9,7 +13,7 @@ public abstract class GameObject
     protected int height;
     protected boolean dead = false;
 
-    public abstract void update(GameContainer gc, float deltaTime);
+    public abstract void update(GameContainer gc, Application app, float deltaTime);
     public abstract void render(GameContainer gc, Renderer renderer);
 
     public String getTag() {return this.tag;}
