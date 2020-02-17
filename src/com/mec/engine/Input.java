@@ -175,6 +175,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
     public static final int KEY_END = KeyEvent.VK_END;
     public static final int KEY_HOME = KeyEvent.VK_HOME;
 
+    //TODO: Mouse events are not working properly
     public static final int MOUSE_LMB = MouseEvent.BUTTON1;
     public static final int MOUSE_RMB = MouseEvent.BUTTON2;
     //TODO: Add all keys.

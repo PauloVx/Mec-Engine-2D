@@ -57,8 +57,8 @@ public class Player extends GameObject
         if(posY >= gc.getWindowHeight() - 20) posY = gc.getWindowHeight() - 20; //Ground collision
         if(posY <= 0) posY = 0; //Sky collision
 
-        if(posX > gc.getWindowWidth()) posX = 0; //Go to the other side of the screen when you go out of bounds.
-        if(posX < 0) posX = gc.getWindowWidth();
+        //if(posX > gc.getWindowWidth()) posX = 0; //Go to the other side of the screen when you go out of bounds.
+        //if(posX < 0) posX = gc.getWindowWidth();
 
         //Shooting
         if(gc.getInput().isKeyDown(Input.KEY_SHIFT)) app.addObject(new Bullet(posX, posY, 1));
@@ -68,9 +68,12 @@ public class Player extends GameObject
     public void render(GameContainer gc, Renderer renderer) 
     {
         renderer.drawFilledRect(Colors.YELLOW, (int)posX, (int)posY, width, height);
-        renderer.drawLight(light, (int)posX, (int)posY);
+        //renderer.drawLight(light, (int)posX, (int)posY);
 
-        renderer.drawText("Player X: " + (int)posX + " Y: " + (int)posY, 0, 30, Colors.GREEN);
+        int cameraposX = renderer.getCameraX();
+        int cameraposY = renderer.getCameraY();
+
+        renderer.drawText("Player X: " + (int)posX + " Y: " + (int)posY, cameraposX, cameraposY + 30, Colors.GREEN);
         renderer.drawText("Player X: " + (int)posX + " Y: " + (int)posY, (int)posX, (int)posY, Colors.GREEN); //TODO: Remove debugging code.
         //TODO: Replace player with animated sprite.
     }

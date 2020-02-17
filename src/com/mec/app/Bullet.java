@@ -44,8 +44,8 @@ public class Bullet extends GameObject
     @Override
     public void render(GameContainer gc, Renderer renderer) 
     {
-        renderer.drawFilledRect(Colors.RED, (int)posX, (int)posY, width, height);
-        renderer.drawLight(light, (int)posX, (int)posY); //Remove light from bullets to enhance performance.
+        renderer.drawFilledRect(Colors.WHITE, (int)posX, (int)posY, width, height);
+        //renderer.drawLight(light, (int)posX, (int)posY); //Remove light from bullets to enhance performance.
 
         renderer.drawText("Bullet X: " + (int)posX + " Y : " + (int)posY, (int)posX, (int)posY, Colors.RED); //TODO: Remove debugging code.
     }

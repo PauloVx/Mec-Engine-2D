@@ -31,6 +31,9 @@ public class Renderer
     private int[] lightMap;
     private int[] lightBlock;
 
+    private int cameraX;
+    private int cameraY;
+
     public Renderer(GameContainer gc)
     {
         pW = gc.getWindowWidth();
@@ -108,6 +111,9 @@ public class Renderer
     {
         int alpha = ((color >> 24) & 0xff);
 
+        x -= cameraX;
+        y -= cameraY;
+
         if( (x < 0 || x >= pW || y < 0 || y >= pH) || alpha == 0) return;
 
         int index = x + y * pW;
@@ -137,6 +143,9 @@ public class Renderer
      */
     public void setLightMap(int x, int y, int value)
     {
+        x -= cameraX;
+        y -= cameraY;
+
         if(x < 0 || x >= pW || y < 0 || y >= pH) return;
 
         int index = x + y * pW;
@@ -199,6 +208,9 @@ public class Renderer
      */
     public void drawImage(Image image, int offsetX, int offsetY)
     {
+        offsetX -= cameraX;
+        offsetY -= cameraY;
+
         if(image.isAlpha() && !processing)
         {
             imageRequests.add(new ImageRequest(image, zDepth, offsetX, offsetY));
@@ -242,6 +254,9 @@ public class Renderer
      */
     public void drawImageTile(ImageTile tile, int offsetX, int offsetY, int tileX, int tileY)
     {
+        offsetX -= cameraX;
+        offsetY -= cameraY;
+
         if(tile.isAlpha() && !processing)
         {
             imageRequests.add(new ImageRequest(tile.getTileImage(tileX, tileY), zDepth, offsetX, offsetY));
@@ -285,6 +300,9 @@ public class Renderer
     */
     public void drawRect(int color, int offsetX, int offsetY, int width, int height)
     {
+        offsetX -= cameraX;
+        offsetY -= cameraY;
+
         for(int y = 0; y <= height; y++)
         {
             setPixel(offsetX, y + offsetY, color);
@@ -309,26 +327,9 @@ public class Renderer
     */
     public void drawFilledRect(int color, int offsetX, int offsetY, int width, int height)
     {
-        if(offsetX < -width) return;
-        if(offsetY < -height) return;
-
-        if(offsetX >= pW) return;
-        if(offsetY >= pH) return;
-
-        int newX = 0;
-        int newY = 0;
-        int newWidth = width;
-        int newHeight = height;
-
-        if (offsetX < 0) newX -= offsetX;
-        if (offsetY < 0) newY -= offsetY;
-
-        if(newWidth + offsetX >= pW) newWidth -= newWidth + offsetX - pW;
-        if(newHeight + offsetY >= pH) newHeight -= newHeight + offsetY - pH;
-
-        for(int y = newY; y < newHeight; y++)
+        for(int y = 0; y < height; y++)
         {
-            for(int x = newX; x < newWidth; x++)
+            for(int x = 0; x < width; x++)
             {
                 setPixel(x + offsetX, y + offsetY, color);
             }
@@ -343,6 +344,9 @@ public class Renderer
     /**Internal use only */
     private void drawLightRequest(Light light, int offsetX, int offsetY)
     {
+        offsetX -= cameraX;
+        offsetY -= cameraY;
+
         for(int i = 0; i <= light.getDiameter(); i++)
         {
             drawLightLine(light, light.getRadius(), light.getRadius(), i, 0, offsetX, offsetY);
@@ -416,4 +420,10 @@ public class Renderer
      * but not pitch black.
     */
     public void setAmbientColor(int color) {this.ambientColor = color;}
+
+    public int getCameraX() {return this.cameraX;}
+    public void setCameraX(int cameraX) {this.cameraX = cameraX;}
+
+    public int getCameraY() {return this.cameraY;}
+    public void setCameraY(int cameraY) {this.cameraY = cameraY;}
 }
