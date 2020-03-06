@@ -166,6 +166,9 @@ public class Renderer
      */
     public void setLightBlock(int x, int y, int value)
     {
+        x -= cameraX;
+        y -= cameraY;
+
         if(x < 0 || x >= pW || y < 0 || y >= pH) return;
         int index = x + y * pW;
         if(zBuffer[index]  > zDepth) return;
@@ -338,6 +341,12 @@ public class Renderer
 
     public void drawLight(Light light, int offsetX, int offsetY)
     {
+        //cameraX = 0;
+        //cameraY = 0;
+        offsetX -= cameraX;
+        offsetY -= cameraY;
+        //TODO: Lights aren't working well with cameras.
+
         lightRequests.add(new LightRequest(light, offsetX, offsetY));
     }
 

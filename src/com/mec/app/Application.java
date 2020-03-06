@@ -97,11 +97,11 @@ public class Application extends MecEngineApp
     {
         GameContainer gc = new GameContainer(new Application());
 
-        gc.setRenderResolution(1600, 900);
-        gc.setWindowScale(0.6f);
+        gc.setRenderResolution(1920, 1080);
+        gc.setWindowScale(0.5f);
 
         //TODO: Config code here.
-        gc.setFramerateLock(true);
+        gc.setFramerateLock(false);
         gc.setWindowTitle("MecEngine Demo Game");
 
         gc.start();

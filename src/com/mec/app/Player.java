@@ -17,7 +17,6 @@ public class Player extends GameObject
     private float velocityY;
 
     private SoundClip jumpSound;
-    private Light light;
 
     public Player(int posX, int posY)
     {
@@ -28,7 +27,6 @@ public class Player extends GameObject
         this.height = 16;
 
         jumpSound = new SoundClip("/res/Audio/jump.wav");
-        light = new Light(250, Colors.WHITE);
     }
 
     @Override
@@ -67,13 +65,12 @@ public class Player extends GameObject
     @Override
     public void render(GameContainer gc, Renderer renderer) 
     {
-        renderer.drawFilledRect(Colors.YELLOW, (int)posX, (int)posY, width, height);
-        //renderer.drawLight(light, (int)posX, (int)posY);
-
         int cameraposX = renderer.getCameraX();
         int cameraposY = renderer.getCameraY();
 
-        renderer.drawText("Player X: " + (int)posX + " Y: " + (int)posY, cameraposX, cameraposY + 30, Colors.GREEN);
+        renderer.drawFilledRect(Colors.YELLOW, (int)posX, (int)posY, width, height);
+
+        renderer.drawText("Player X: " + (int)posX + " Y: " + (int)posY, cameraposX, cameraposY + 30, Colors.YELLOW);
         renderer.drawText("Player X: " + (int)posX + " Y: " + (int)posY, (int)posX, (int)posY, Colors.GREEN); //TODO: Remove debugging code.
         //TODO: Replace player with animated sprite.
     }
